@@ -7,25 +7,25 @@ import { getRepos } from "~/apis";
 const useReposQuery = (query: string) => {
   const [page, setPage] = useState(1);
 
-  const { data, fetchNextPage, hasNextPage } = useInfiniteQuery(
+  const { data, fetchNextPage, hasNextPage, isFetching } = useInfiniteQuery(
     ["repos", query],
-    () => getRepos(query),
+    () => getRepos(query, page.toString()),
     {
       getNextPageParam: (lastPage: any) => {
-        if (lastPage.length < 10) return undefined;
+        if (lastPage.length < 20) return undefined;
         return page + 1;
       },
     }
   );
 
   const onLoadMore = () => {
-    if (hasNextPage) {
-      fetchNextPage();
+    if (hasNextPage && !isFetching && data && query) {
       setPage(page + 1);
+      fetchNextPage();
     }
   };
 
-  return { data, onLoadMore };
+  return { data, onLoadMore, isFetching };
 };
 
 export default useReposQuery;
