@@ -3,34 +3,37 @@ import * as S from "./Repo.style";
 import { BookmarkButton } from "~/components";
 import { savedReposAtom } from "~/store/atoms";
 import { useRecoilState } from "recoil";
-
-//assets
-import { defaultThumb } from "~/assets/images";
+import moment from "moment";
 
 interface IRepo {
   id: string;
-  title: string;
-  displayLink: string;
-  link: string;
-  imageUrl?: string;
+  fullName: string;
+  description: string;
+  stargazersCount: number;
+  language: string;
+  licenseName: string;
+  updatedAt: string;
+  htmlUrl: string;
   RepoRef?: React.RefObject<HTMLElement> | undefined | (() => void);
 }
 
 export const Repo: React.FC<IRepo> = React.memo(
   forwardRef(
-    ({ id, title, displayLink, link, imageUrl = defaultThumb, RepoRef }) => {
+    ({
+      id,
+      fullName,
+      description,
+      stargazersCount,
+      language,
+      licenseName,
+      updatedAt,
+      htmlUrl,
+      RepoRef,
+    }) => {
       const [savedRepos, setSavedRepos] = useRecoilState(savedReposAtom);
 
       const goToLink = () => {
-        window.open(link, "_blank");
-      };
-
-      const handleImageError = (
-        e: React.SyntheticEvent<HTMLImageElement, Event>
-      ) => {
-        const target = e.target as HTMLImageElement;
-        target.onerror = null;
-        target.src = defaultThumb;
+        window.open(htmlUrl, "_blank");
       };
 
       const checkSaved = (id: string) => {
@@ -38,7 +41,20 @@ export const Repo: React.FC<IRepo> = React.memo(
       };
 
       const saveRepo = () => {
-        setSavedRepos([...savedRepos, { id, title, displayLink, link }]);
+        setSavedRepos([
+          ...savedRepos,
+          {
+            id,
+            fullName,
+            description,
+            stargazersCount,
+            language,
+            licenseName,
+            updatedAt,
+            htmlUrl,
+            RepoRef,
+          },
+        ]);
       };
 
       const deleteRepo = () => {
@@ -60,13 +76,14 @@ export const Repo: React.FC<IRepo> = React.memo(
       return (
         <S.Container onClick={goToLink} ref={RepoRef}>
           <S.Wrapper>
-            <S.PostImage src={imageUrl} onError={handleImageError} />
-            <S.PostContentWrapper>
-              <S.Title>{title}</S.Title>
-              <S.LinkWrapper>
-                <S.Link>{displayLink}</S.Link>
-              </S.LinkWrapper>
-            </S.PostContentWrapper>
+            <S.ContentWrapper>
+              <S.Title>{fullName}</S.Title>
+              <S.Description>{description}</S.Description>
+              <S.Information>
+                {stargazersCount}stars · {language} · {licenseName} ·{" "}
+                {moment(updatedAt).format("YYYY-MM-DD")}
+              </S.Information>
+            </S.ContentWrapper>
             <BookmarkButton
               onClick={(e: React.MouseEvent<SVGSVGElement, MouseEvent>) =>
                 onClickSaveButton(e, id)

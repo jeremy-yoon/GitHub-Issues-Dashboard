@@ -5,6 +5,7 @@ export const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
 `;
 
 export const Wrapper = styled.div`
@@ -15,5 +16,5 @@ export const Wrapper = styled.div`
   width: 100%;
   max-width: 560px;
   padding: 0 24px;
-  margin-bottom: 128px;
+  margin-bottom: 64px;
 `;

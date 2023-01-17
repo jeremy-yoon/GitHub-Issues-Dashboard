@@ -1,80 +1,62 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { colors } from "~/styles/colors";
+
+const textDefaultStyle = css`
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: pre-wrap;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+`;
 
 export const Container = styled.article`
   display: flex;
   flex-direction: row;
   width: 100%;
-  padding: 16px 0;
+  padding: 24px 16px;
   align-items: center;
   justify-content: center;
   cursor: pointer;
+
+  border-top: 1px solid ${colors.g6};
 `;
 
 export const Wrapper = styled.div`
   width: 100%;
-  max-width: 688px;
-  padding: 0 24px;
   display: flex;
   align-items: center;
 `;
 
-export const PostImage = styled.img`
-  min-width: 72px;
-  max-width: 72px;
-  height: 72px;
-  border-radius: 12px;
-  object-fit: cover;
-`;
-
-export const PostContentWrapper = styled.div`
-  max-width: 688px;
+export const ContentWrapper = styled.div`
+  width: 100%;
   min-width: calc(100% - 136px);
-  height: 72px;
-  padding-left: 16px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
 `;
 
 export const Title = styled.span`
   font-weight: bold;
-  font-size: 15px;
+  font-size: 16px;
   line-height: 20px;
+  color: ${colors.primary};
+  ${textDefaultStyle}
+`;
 
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: pre-wrap;
-
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-
+export const Description = styled.span`
+  font-size: 14px;
+  line-height: 18px;
   color: ${colors.g1};
+  ${textDefaultStyle}
+
+  margin-top: 4px;
 `;
 
-export const LinkWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: flex-end;
-  column-gap: 6px;
-`;
-
-export const Favicon = styled.img`
-  width: 14px;
-  height: 14px;
-`;
-
-export const Link = styled.span`
-  font-size: 13px;
-  line-height: 13px;
+export const Information = styled.span`
+  font-size: 12px;
+  line-height: 18px;
   color: ${colors.g3};
+  ${textDefaultStyle}
 
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: pre-wrap;
-
-  display: -webkit-box;
-  -webkit-line-clamp: 1;
-  -webkit-box-orient: vertical;
+  margin-top: 8px;
 `;

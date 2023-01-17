@@ -14,7 +14,14 @@ type pageType = {
 type RepoType = {
   id: string;
   full_name: string;
-  link: string;
+  description: string;
+  stargazers_count: number;
+  language: string;
+  license: {
+    name: string;
+  };
+  updated_at: string;
+  html_url: string;
 };
 
 const SearchResultList = ({}) => {
@@ -34,10 +41,13 @@ const SearchResultList = ({}) => {
             <Repo
               key={repo.id}
               id={repo.id}
-              title={repo.full_name}
-              imageUrl={repo.link}
-              displayLink={repo.link}
-              link={repo.link}
+              fullName={repo.full_name}
+              description={repo.description}
+              stargazersCount={repo.stargazers_count}
+              language={repo.language}
+              licenseName={repo.license?.name}
+              updatedAt={repo.updated_at}
+              htmlUrl={repo.html_url}
               RepoRef={isLast ? lastElementRef : undefined}
             />
           );
