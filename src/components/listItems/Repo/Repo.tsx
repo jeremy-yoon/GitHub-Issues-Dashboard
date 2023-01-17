@@ -1,5 +1,5 @@
 import React, { forwardRef } from "react";
-import * as S from "./Repository.style";
+import * as S from "./Repo.style";
 import { BookmarkButton } from "~/components";
 import { savedReposAtom } from "~/store/atoms";
 import { useRecoilState } from "recoil";
@@ -7,25 +7,18 @@ import { useRecoilState } from "recoil";
 //assets
 import { defaultThumb } from "~/assets/images";
 
-interface IRepository {
+interface IRepo {
   id: string;
   title: string;
   displayLink: string;
   link: string;
   imageUrl?: string;
-  repositoryRef?: React.RefObject<HTMLElement> | undefined | (() => void);
+  RepoRef?: React.RefObject<HTMLElement> | undefined | (() => void);
 }
 
-export const Repository: React.FC<IRepository> = React.memo(
+export const Repo: React.FC<IRepo> = React.memo(
   forwardRef(
-    ({
-      id,
-      title,
-      displayLink,
-      link,
-      imageUrl = defaultThumb,
-      repositoryRef,
-    }) => {
+    ({ id, title, displayLink, link, imageUrl = defaultThumb, RepoRef }) => {
       const [savedRepos, setSavedRepos] = useRecoilState(savedReposAtom);
 
       const goToLink = () => {
@@ -65,7 +58,7 @@ export const Repository: React.FC<IRepository> = React.memo(
       };
 
       return (
-        <S.Container onClick={goToLink} ref={repositoryRef}>
+        <S.Container onClick={goToLink} ref={RepoRef}>
           <S.Wrapper>
             <S.PostImage src={imageUrl} onError={handleImageError} />
             <S.PostContentWrapper>
@@ -86,4 +79,4 @@ export const Repository: React.FC<IRepository> = React.memo(
     }
   )
 );
-export default Repository;
+export default Repo;

@@ -1,7 +1,7 @@
 import * as S from "./HomePage.style";
 import { SearchInput } from "~/components";
 import { useNavigate, createSearchParams } from "react-router-dom";
-import { SavedRepositoryList } from "./SavedRepositoryList";
+import { SavedRepoList } from "./SavedRepoList";
 
 const HomePage = () => {
   const navigate = useNavigate();
@@ -18,7 +18,7 @@ const HomePage = () => {
     <S.Container>
       <S.Wrapper>
         <SearchInput onKeyPressEnter={goToSearchPage} />
-        <SavedRepositoryList />
+        <SavedRepoList />
       </S.Wrapper>
     </S.Container>
   );

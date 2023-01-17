@@ -1,25 +1,25 @@
 import React, { useEffect, useState } from "react";
-import * as S from "./SavedRepositoryList.style";
-import { Repository } from "~/components";
+import * as S from "./SavedRepoList.style";
+import { Repo } from "~/components";
 import { useReposQuery } from "~/hooks";
 import { useSearchParams } from "react-router-dom";
 import { useInView } from "react-intersection-observer";
 import { savedReposAtom } from "~/store/atoms";
 import { useRecoilState } from "recoil";
 
-type repositoryType = {
+type RepoType = {
   id: string;
   full_name: string;
   link: string;
 };
 
-const SavedRepositoryList = ({}) => {
+const SavedRepoList = ({}) => {
   const [savedRepos, setSavedRepos] = useRecoilState(savedReposAtom);
 
   const renderData = () => {
     if (savedRepos !== undefined) {
-      return savedRepos.map((repo: repositoryType, index: number) => (
-        <Repository
+      return savedRepos.map((repo: RepoType, index: number) => (
+        <Repo
           key={repo.id}
           id={repo.id}
           title={"repo.full_name"}
@@ -34,4 +34,4 @@ const SavedRepositoryList = ({}) => {
   return <S.Container>{renderData()}</S.Container>;
 };
 
-export default SavedRepositoryList;
+export default SavedRepoList;

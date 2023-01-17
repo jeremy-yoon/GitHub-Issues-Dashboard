@@ -9,7 +9,7 @@ export { SearchHeader } from "./headers/SearchHeader";
 export { BasicHeader } from "./headers/BasicHeader";
 
 //listItems
-export { Repository } from "./listItems/Repository";
+export { Repo } from "./listItems/Repo";
 export { Issue } from "./listItems/Issue";
 
 //modals

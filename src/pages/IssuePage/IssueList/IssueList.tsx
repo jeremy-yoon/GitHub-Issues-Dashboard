@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import * as S from "./IssueList.style";
 import { Issue } from "~/components";
 import { useIssuesQuery } from "~/hooks";
-import { useSearchParams } from "react-router-dom";
 import { useInView } from "react-intersection-observer";
 import { savedReposAtom } from "~/store/atoms";
 import { useRecoilState } from "recoil";
@@ -26,16 +25,24 @@ const IssueList = ({}) => {
     const issuesParams = repos.map((repo: { title: string }) => {
       return `repo:${repo.title}`;
     });
-    console.log(issuesParams.join("+"));
     return issuesParams.join("+");
   };
 
   const { data, onLoadMore } = useIssuesQuery(getIssuesParams(savedRepos));
 
+  const [lastElementRef, inView] = useInView();
+
+  useEffect(() => {
+    if (inView) {
+      onLoadMore();
+    }
+  }, [inView]);
+
   const renderData = () => {
     if (data !== undefined) {
       return data.pages.map((page: pageType) => {
         return page.data.items.map((repo: IssueType, index: number) => {
+          const isLast = index === page.data.items.length - 1;
           return (
             <Issue
               key={repo.id}
@@ -44,6 +51,7 @@ const IssueList = ({}) => {
               imageUrl={repo.link}
               displayLink={repo.link}
               link={repo.link}
+              issueRef={isLast ? lastElementRef : undefined}
             />
           );
         });
