@@ -1,5 +1,8 @@
 import React, { forwardRef } from "react";
 import * as S from "./Repository.style";
+import { BookmarkButton } from "~/components";
+import { savedReposAtom } from "~/store/atoms";
+import { useRecoilState } from "recoil";
 
 //assets
 import { defaultThumb } from "~/assets/images";
@@ -10,7 +13,6 @@ interface IRepository {
   displayLink: string;
   link: string;
   imageUrl?: string;
-  initialIsSaved?: boolean;
   repositoryRef?: React.RefObject<HTMLElement> | undefined | (() => void);
 }
 
@@ -22,9 +24,10 @@ export const Repository: React.FC<IRepository> = React.memo(
       displayLink,
       link,
       imageUrl = defaultThumb,
-      initialIsSaved = false,
       repositoryRef,
     }) => {
+      const [savedRepos, setSavedRepos] = useRecoilState(savedReposAtom);
+
       const goToLink = () => {
         window.open(link, "_blank");
       };
@@ -37,6 +40,30 @@ export const Repository: React.FC<IRepository> = React.memo(
         target.src = defaultThumb;
       };
 
+      const checkSaved = (id: string) => {
+        return savedRepos.find((repo: any) => repo.id === id);
+      };
+
+      const saveRepo = () => {
+        setSavedRepos([...savedRepos, { id, title, displayLink, link }]);
+      };
+
+      const deleteRepo = () => {
+        setSavedRepos(savedRepos.filter((repo: any) => repo.id !== id));
+      };
+
+      const onClickSaveButton = (
+        e: React.MouseEvent<SVGSVGElement, MouseEvent>,
+        id: string
+      ) => {
+        e.stopPropagation();
+        if (checkSaved(id)) {
+          deleteRepo();
+        } else {
+          saveRepo();
+        }
+      };
+
       return (
         <S.Container onClick={goToLink} ref={repositoryRef}>
           <S.Wrapper>
@@ -47,6 +74,12 @@ export const Repository: React.FC<IRepository> = React.memo(
                 <S.Link>{displayLink}</S.Link>
               </S.LinkWrapper>
             </S.PostContentWrapper>
+            <BookmarkButton
+              onClick={(e: React.MouseEvent<SVGSVGElement, MouseEvent>) =>
+                onClickSaveButton(e, id)
+              }
+              isSaved={checkSaved(id)}
+            />
           </S.Wrapper>
         </S.Container>
       );

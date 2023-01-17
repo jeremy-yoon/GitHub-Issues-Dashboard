@@ -3,25 +3,30 @@ import styled from "styled-components";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
+import { RecoilRoot } from "recoil";
+import RecoilNexus from "recoil-nexus";
 import { HomePage, SearchPage } from "~/pages";
 
 const queryClient = new QueryClient();
 
 export const App = () => {
   return (
-    <QueryClientProvider client={queryClient}>
-      <ReactQueryDevtools initialIsOpen={true} />
-      <S.Container>
-        <S.Wrapper>
-          <BrowserRouter>
-            <Routes>
-              <Route path="/" element={<HomePage />} />
-              <Route path="/search" element={<SearchPage />} />
-            </Routes>
-          </BrowserRouter>
-        </S.Wrapper>
-      </S.Container>
-    </QueryClientProvider>
+    <RecoilRoot>
+      <RecoilNexus />
+      <QueryClientProvider client={queryClient}>
+        <ReactQueryDevtools initialIsOpen={true} />
+        <S.Container>
+          <S.Wrapper>
+            <BrowserRouter>
+              <Routes>
+                <Route path="/" element={<HomePage />} />
+                <Route path="/search" element={<SearchPage />} />
+              </Routes>
+            </BrowserRouter>
+          </S.Wrapper>
+        </S.Container>
+      </QueryClientProvider>
+    </RecoilRoot>
   );
 };
 

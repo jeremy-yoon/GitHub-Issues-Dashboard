@@ -12,6 +12,7 @@ type pageType = {
 };
 
 type repositoryType = {
+  id: string;
   full_name: string;
   link: string;
 };
@@ -31,13 +32,12 @@ const RepositoryList = ({}) => {
           const isLast = index === page.data.items.length - 1;
           return (
             <Repository
-              key={repo.link}
-              id={repo.link}
+              key={repo.id}
+              id={repo.id}
               title={repo.full_name}
               imageUrl={repo.link}
               displayLink={repo.link}
               link={repo.link}
-              initialIsSaved={false}
               repositoryRef={isLast ? lastElementRef : undefined}
             />
           );
