@@ -16,8 +16,10 @@ const HomePage = () => {
   };
   return (
     <S.Container>
-      <SearchInput onKeyPressEnter={goToSearchPage} />
-      <SavedRepositoryList />
+      <S.Wrapper>
+        <SearchInput onKeyPressEnter={goToSearchPage} />
+        <SavedRepositoryList />
+      </S.Wrapper>
     </S.Container>
   );
 };

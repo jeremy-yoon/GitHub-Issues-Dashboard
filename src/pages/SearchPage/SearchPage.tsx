@@ -1,13 +1,13 @@
 import * as S from "./SearchPage.style";
 import { SearchHeader } from "~/components";
-import { RepositoryList } from "./RepositoryList";
+import { SearchResultList } from "./SearchResultList";
 
 const SearchPage = () => {
   return (
     <>
       <S.Container>
         <SearchHeader />
-        <RepositoryList />
+        <SearchResultList />
       </S.Container>
     </>
   );

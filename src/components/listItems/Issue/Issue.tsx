@@ -1,10 +1,82 @@
-import React from "react";
+import React, { forwardRef } from "react";
 import * as S from "./Issue.style";
+import { savedReposAtom } from "~/store/atoms";
+import { useRecoilState } from "recoil";
 
-interface IIssue {}
+//assets
+import { defaultThumb } from "~/assets/images";
 
-const Issue: React.FC<IIssue> = ({}) => {
-  return <S.Container></S.Container>;
-};
+interface IIssue {
+  id: string;
+  title: string;
+  displayLink: string;
+  link: string;
+  imageUrl?: string;
+  repositoryRef?: React.RefObject<HTMLElement> | undefined | (() => void);
+}
 
+export const Issue: React.FC<IIssue> = React.memo(
+  forwardRef(
+    ({
+      id,
+      title,
+      displayLink,
+      link,
+      imageUrl = defaultThumb,
+      repositoryRef,
+    }) => {
+      const [savedRepos, setSavedRepos] = useRecoilState(savedReposAtom);
+
+      const goToLink = () => {
+        window.open(link, "_blank");
+      };
+
+      const handleImageError = (
+        e: React.SyntheticEvent<HTMLImageElement, Event>
+      ) => {
+        const target = e.target as HTMLImageElement;
+        target.onerror = null;
+        target.src = defaultThumb;
+      };
+
+      const checkSaved = (id: string) => {
+        return savedRepos.find((repo: any) => repo.id === id);
+      };
+
+      const saveRepo = () => {
+        setSavedRepos([...savedRepos, { id, title, displayLink, link }]);
+      };
+
+      const deleteRepo = () => {
+        setSavedRepos(savedRepos.filter((repo: any) => repo.id !== id));
+      };
+
+      const onClickSaveButton = (
+        e: React.MouseEvent<SVGSVGElement, MouseEvent>,
+        id: string
+      ) => {
+        e.stopPropagation();
+        if (checkSaved(id)) {
+          deleteRepo();
+        } else {
+          saveRepo();
+        }
+      };
+
+      return (
+        <S.Container onClick={goToLink} ref={repositoryRef}>
+          <S.Wrapper>
+            <S.PostImage src={imageUrl} onError={handleImageError} />
+            <S.PostContentWrapper>
+              <S.Title>{title}</S.Title>
+              <S.LinkWrapper>
+                <S.Link>{displayLink}</S.Link>
+              </S.LinkWrapper>
+            </S.PostContentWrapper>
+          </S.Wrapper>
+        </S.Container>
+      );
+    }
+  )
+);
 export default Issue;

@@ -6,6 +6,7 @@ export { SearchInput } from "./inputs/SearchInput";
 
 //headers
 export { SearchHeader } from "./headers/SearchHeader";
+export { BasicHeader } from "./headers/BasicHeader";
 
 //listItems
 export { Repository } from "./listItems/Repository";

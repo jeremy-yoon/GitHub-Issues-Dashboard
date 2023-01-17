@@ -5,7 +5,7 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 import { RecoilRoot } from "recoil";
 import RecoilNexus from "recoil-nexus";
-import { HomePage, SearchPage } from "~/pages";
+import { HomePage, SearchPage, IssuePage } from "~/pages";
 
 const queryClient = new QueryClient();
 
@@ -21,6 +21,7 @@ export const App = () => {
               <Routes>
                 <Route path="/" element={<HomePage />} />
                 <Route path="/search" element={<SearchPage />} />
+                <Route path="issue" element={<IssuePage />} />
               </Routes>
             </BrowserRouter>
           </S.Wrapper>

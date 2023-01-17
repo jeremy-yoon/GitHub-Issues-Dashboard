@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import * as S from "./RepositoryList.style";
+import * as S from "./SearchResultList.style";
 import { Repository } from "~/components";
 import { useReposQuery } from "~/hooks";
 import { useSearchParams } from "react-router-dom";
@@ -17,7 +17,7 @@ type repositoryType = {
   link: string;
 };
 
-const RepositoryList = ({}) => {
+const SearchResultList = ({}) => {
   const [searchParams] = useSearchParams();
   const query = searchParams.get("query") as string;
 
@@ -55,4 +55,4 @@ const RepositoryList = ({}) => {
   return <S.Container>{renderData()}</S.Container>;
 };
 
-export default RepositoryList;
+export default SearchResultList;
