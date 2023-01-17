@@ -4,6 +4,7 @@ import { BookmarkButton } from "~/components";
 import { savedReposAtom } from "~/store/atoms";
 import { useRecoilState } from "recoil";
 import moment from "moment";
+import { notification } from "antd";
 
 interface IRepo {
   id: string;
@@ -31,6 +32,14 @@ export const Repo: React.FC<IRepo> = React.memo(
       RepoRef,
     }) => {
       const [savedRepos, setSavedRepos] = useRecoilState(savedReposAtom);
+
+      const [api, contextHolder] = notification.useNotification();
+
+      const openNotification = () => {
+        api.info({
+          message: `레포지토리는 최대 4개까지 저장할 수 있어요.`,
+        });
+      };
 
       const goToLink = () => {
         window.open(htmlUrl, "_blank");
@@ -69,12 +78,17 @@ export const Repo: React.FC<IRepo> = React.memo(
         if (checkSaved(id)) {
           deleteRepo();
         } else {
-          saveRepo();
+          if (savedRepos.length >= 4) {
+            openNotification();
+          } else {
+            saveRepo();
+          }
         }
       };
 
       return (
         <S.Container onClick={goToLink} ref={RepoRef}>
+          {contextHolder}
           <S.Wrapper>
             <S.ContentWrapper>
               <S.Title>{fullName}</S.Title>

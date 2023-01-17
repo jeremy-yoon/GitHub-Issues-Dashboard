@@ -13,17 +13,15 @@ type pageType = {
 };
 
 type IssueType = {
-  id: string;
-  title: string;
-  link: string;
+  fullName: string;
 };
 
 const IssueList = ({}) => {
   const [savedRepos] = useRecoilState(savedReposAtom);
 
-  const getIssuesParams = (repos: { title: string }[]) => {
-    const issuesParams = repos.map((repo: { title: string }) => {
-      return `repo:${repo.title}`;
+  const getIssuesParams = (repos: { fullName: string }[]) => {
+    const issuesParams = repos.map((repo: { fullName: string }) => {
+      return `repo:${repo.fullName}`;
     });
     return issuesParams.join("+");
   };
@@ -45,12 +43,12 @@ const IssueList = ({}) => {
           const isLast = index === page.data.items.length - 1;
           return (
             <Issue
-              key={repo.id}
-              id={repo.id}
-              title={repo.title}
-              imageUrl={repo.link}
-              displayLink={repo.link}
-              link={repo.link}
+              key={repo.fullName}
+              id={repo.fullName}
+              title={repo.fullName}
+              imageUrl={repo.fullName}
+              displayLink={repo.fullName}
+              link={repo.fullName}
               issueRef={isLast ? lastElementRef : undefined}
             />
           );
