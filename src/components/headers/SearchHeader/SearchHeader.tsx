@@ -11,18 +11,10 @@ import { SearchInput } from "~/components";
 import { BottomLine } from "./components/BottomLine";
 
 interface ISearchHeader {
-  inputType?: "text" | "password" | "email" | "number";
-  placeholder?: string;
-  initialValue?: string | null;
-  onClickInputEnter?: (value: string) => void;
+  query?: string;
 }
 
-const SearchHeader: React.FC<ISearchHeader> = ({
-  inputType,
-  placeholder = "레포지토리를 검색해보세요.",
-  initialValue,
-  onClickInputEnter,
-}) => {
+const SearchHeader: React.FC<ISearchHeader> = ({ query }) => {
   const navigate = useNavigate();
 
   const goToBackPage = () => {
@@ -52,10 +44,8 @@ const SearchHeader: React.FC<ISearchHeader> = ({
         <S.IcBackButton onClick={goToBackPage} />
         <SearchInput
           hasSearchButton={false}
-          inputType={inputType}
-          initialValue={initialValue}
-          placeholder={placeholder}
-          onKeyPressEnter={onClickInputEnter}
+          initialValue={query}
+          onKeyPressEnter={goToSearchPage}
         />
       </S.Wrapper>
       <BottomLine />

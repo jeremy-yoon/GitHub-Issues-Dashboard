@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import * as S from "./SearchResultList.style";
-import { Repo } from "~/components";
+import { Repo, RepoSkeleton } from "~/components";
 import { useReposQuery } from "~/hooks";
 import { useSearchParams } from "react-router-dom";
 import { useInView } from "react-intersection-observer";
@@ -28,7 +28,7 @@ const SearchResultList = ({}) => {
   const [searchParams] = useSearchParams();
   const query = searchParams.get("query") as string;
 
-  const { data, onLoadMore } = useReposQuery(query);
+  const { data, onLoadMore, isFetching } = useReposQuery(query);
 
   const [lastElementRef, inView] = useInView();
 
@@ -62,7 +62,12 @@ const SearchResultList = ({}) => {
     }
   }, [inView]);
 
-  return <S.Container>{renderData()}</S.Container>;
+  return (
+    <S.Container>
+      {renderData()}
+      {isFetching && <RepoSkeleton repeat={10} />}
+    </S.Container>
+  );
 };
 
 export default SearchResultList;

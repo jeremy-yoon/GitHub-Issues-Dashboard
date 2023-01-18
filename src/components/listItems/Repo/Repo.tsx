@@ -45,8 +45,36 @@ export const Repo: React.FC<IRepo> = React.memo(
         window.open(htmlUrl, "_blank");
       };
 
+      const onClickSaveButton = (
+        e: React.MouseEvent<SVGSVGElement, MouseEvent>,
+        id: string,
+        fullName: string
+      ) => {
+        e.stopPropagation();
+        const isSaved = checkSaved(id);
+        if (isSaved) {
+          handleDelete(fullName);
+        } else {
+          handleSave();
+        }
+      };
+
       const checkSaved = (id: string) => {
         return savedRepos.find((repo: any) => repo.id === id);
+      };
+
+      const handleSave = () => {
+        if (savedRepos.length >= 4) {
+          openNotification();
+        } else {
+          saveRepo();
+        }
+      };
+
+      const handleDelete = (fullName: string) => {
+        if (window.confirm(`${fullName}을(를) 저장 목록에서 삭제하시겠어요?`)) {
+          deleteRepo();
+        }
       };
 
       const saveRepo = () => {
@@ -70,22 +98,6 @@ export const Repo: React.FC<IRepo> = React.memo(
         setSavedRepos(savedRepos.filter((repo: any) => repo.id !== id));
       };
 
-      const onClickSaveButton = (
-        e: React.MouseEvent<SVGSVGElement, MouseEvent>,
-        id: string
-      ) => {
-        e.stopPropagation();
-        if (checkSaved(id)) {
-          deleteRepo();
-        } else {
-          if (savedRepos.length >= 4) {
-            openNotification();
-          } else {
-            saveRepo();
-          }
-        }
-      };
-
       return (
         <S.Container onClick={goToLink} ref={RepoRef}>
           {contextHolder}
@@ -100,7 +112,7 @@ export const Repo: React.FC<IRepo> = React.memo(
             </S.ContentWrapper>
             <BookmarkButton
               onClick={(e: React.MouseEvent<SVGSVGElement, MouseEvent>) =>
-                onClickSaveButton(e, id)
+                onClickSaveButton(e, id, fullName)
               }
               isSaved={checkSaved(id)}
             />

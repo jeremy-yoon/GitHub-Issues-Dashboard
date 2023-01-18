@@ -13,7 +13,17 @@ type pageType = {
 };
 
 type IssueType = {
-  fullName: string;
+  id: string;
+  title: string;
+  number: number;
+  created_at: string;
+  closed_at?: string;
+  user: {
+    login: string;
+  };
+  state: string;
+  html_url: string;
+  issueRef?: React.RefObject<HTMLElement> | undefined | (() => void);
 };
 
 const IssueList = ({}) => {
@@ -39,16 +49,18 @@ const IssueList = ({}) => {
   const renderData = () => {
     if (data !== undefined) {
       return data.pages.map((page: pageType) => {
-        return page.data.items.map((repo: IssueType, index: number) => {
+        return page.data.items.map((issue: IssueType, index: number) => {
           const isLast = index === page.data.items.length - 1;
           return (
             <Issue
-              key={repo.fullName}
-              id={repo.fullName}
-              title={repo.fullName}
-              imageUrl={repo.fullName}
-              displayLink={repo.fullName}
-              link={repo.fullName}
+              id={issue.id}
+              title={issue.title}
+              number={issue.number}
+              createdAt={issue.created_at}
+              closedAt={issue.closed_at}
+              userName={issue.user.login}
+              state={issue.state}
+              htmlUrl={issue.html_url}
               issueRef={isLast ? lastElementRef : undefined}
             />
           );

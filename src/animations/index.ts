@@ -1,0 +1,1 @@
+export { skeletonShimmer } from "./skeletonShimmer";

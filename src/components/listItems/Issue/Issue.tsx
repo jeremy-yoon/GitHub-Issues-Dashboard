@@ -1,41 +1,47 @@
 import React, { forwardRef } from "react";
 import * as S from "./Issue.style";
-import { defaultThumb } from "~/assets/images";
+import moment from "moment";
 
 interface IIssue {
   id: string;
   title: string;
-  displayLink: string;
-  link: string;
-  imageUrl?: string;
+  number: number;
+  createdAt: string;
+  closedAt?: string;
+  userName: string;
+  state: string;
+  htmlUrl: string;
   issueRef?: React.RefObject<HTMLElement> | undefined | (() => void);
 }
 
 export const Issue: React.FC<IIssue> = React.memo(
   forwardRef(
-    ({ id, title, displayLink, link, imageUrl = defaultThumb, issueRef }) => {
+    ({
+      id,
+      title,
+      number,
+      createdAt,
+      closedAt,
+      userName,
+      state,
+      htmlUrl,
+      issueRef,
+    }) => {
       const goToLink = () => {
-        window.open(link, "_blank");
-      };
-
-      const handleImageError = (
-        e: React.SyntheticEvent<HTMLImageElement, Event>
-      ) => {
-        const target = e.target as HTMLImageElement;
-        target.onerror = null;
-        target.src = defaultThumb;
+        window.open(htmlUrl, "_blank");
       };
 
       return (
         <S.Container onClick={goToLink} ref={issueRef}>
           <S.Wrapper>
-            <S.PostImage src={imageUrl} onError={handleImageError} />
-            <S.PostContentWrapper>
+            <S.ContentWrapper>
+              <S.Description>{htmlUrl}</S.Description>
               <S.Title>{title}</S.Title>
-              <S.LinkWrapper>
-                <S.Link>{displayLink}</S.Link>
-              </S.LinkWrapper>
-            </S.PostContentWrapper>
+              <S.Information>
+                #{number} · {moment(createdAt).format("YYYY-MM-DD")} · {state} ·{" "}
+                {closedAt}
+              </S.Information>
+            </S.ContentWrapper>
           </S.Wrapper>
         </S.Container>
       );
