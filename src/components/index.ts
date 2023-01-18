@@ -12,6 +12,3 @@ export { BasicHeader } from "./headers/BasicHeader";
 export { Repo } from "./listItems/Repo";
 export { RepoSkeleton } from "./listItems/RepoSkeleton";
 export { Issue } from "./listItems/Issue";
-
-//modals
-export { Toast } from "./modals/Toast";

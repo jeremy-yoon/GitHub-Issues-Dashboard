@@ -6,7 +6,6 @@ import { ReactQueryDevtools } from "react-query/devtools";
 import { RecoilRoot } from "recoil";
 import RecoilNexus from "recoil-nexus";
 import { HomePage, SearchPage, IssuePage } from "~/pages";
-import { Toast } from "~/components";
 
 const queryClient = new QueryClient();
 
@@ -25,7 +24,6 @@ export const App = () => {
                 <Route path="issue" element={<IssuePage />} />
               </Routes>
             </BrowserRouter>
-            <Toast />
           </S.Wrapper>
         </S.Container>
       </QueryClientProvider>

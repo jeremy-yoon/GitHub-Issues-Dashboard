@@ -1,18 +1,7 @@
 import React, { forwardRef } from "react";
 import * as S from "./Issue.style";
 import moment from "moment";
-
-interface IIssue {
-  id: string;
-  title: string;
-  number: number;
-  createdAt: string;
-  closedAt?: string;
-  userName: string;
-  state: string;
-  htmlUrl: string;
-  issueRef?: React.RefObject<HTMLElement> | undefined | (() => void);
-}
+import { IIssue } from "~/interfaces";
 
 export const Issue: React.FC<IIssue> = React.memo(
   forwardRef(

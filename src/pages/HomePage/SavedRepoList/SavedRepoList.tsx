@@ -3,19 +3,7 @@ import { Repo } from "~/components";
 import { savedReposAtom } from "~/store/atoms";
 import { useRecoilState } from "recoil";
 import { useNavigate } from "react-router-dom";
-
-type RepoType = {
-  id: string;
-  fullName: string;
-  description: string;
-  stargazersCount: number;
-  language: string;
-  license: {
-    name: string;
-  };
-  updated_at: string;
-  htmlUrl: string;
-};
+import { IRepo } from "~/interfaces";
 
 const SavedRepoList = () => {
   const navigate = useNavigate();
@@ -36,7 +24,7 @@ const SavedRepoList = () => {
           </S.Caption>
         );
       }
-      return savedRepos.map((repo: RepoType) => (
+      return savedRepos.map((repo: IRepo) => (
         <Repo
           key={repo.id}
           id={repo.id}
@@ -44,8 +32,8 @@ const SavedRepoList = () => {
           description={repo.description}
           stargazersCount={repo.stargazersCount}
           language={repo.language}
-          licenseName={repo.license?.name}
-          updatedAt={repo.updated_at}
+          licenseName={repo.licenseName}
+          updatedAt={repo.updatedAt}
           htmlUrl={repo.htmlUrl}
         />
       ));

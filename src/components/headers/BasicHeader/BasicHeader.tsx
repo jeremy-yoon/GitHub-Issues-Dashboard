@@ -5,7 +5,7 @@ import { BottomLine } from "./components/BottomLine";
 
 interface IBasicHeader {}
 
-const BasicHeader: React.FC<IBasicHeader> = ({}) => {
+const BasicHeader: React.FC<IBasicHeader> = () => {
   const navigate = useNavigate();
 
   const goToBackPage = () => {

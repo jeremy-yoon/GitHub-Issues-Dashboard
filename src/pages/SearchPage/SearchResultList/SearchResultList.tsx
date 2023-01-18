@@ -3,39 +3,27 @@ import * as S from "./SearchResultList.style";
 import { Repo, RepoSkeleton } from "~/components";
 import { useReposQuery } from "~/hooks";
 import { useInView } from "react-intersection-observer";
+import { IRawRepo } from "~/interfaces";
 
-type SearchResultListProps = {
+interface ISearchResultList {
   query: string;
-};
+}
 
-type pageType = {
+interface IPage {
   data: {
-    items: RepoType[];
+    items: IRawRepo[];
   };
-};
+}
 
-type RepoType = {
-  id: string;
-  full_name: string;
-  description: string;
-  stargazers_count: number;
-  language: string;
-  license: {
-    name: string;
-  };
-  updated_at: string;
-  html_url: string;
-};
-
-const SearchResultList = ({ query }: SearchResultListProps) => {
+const SearchResultList = ({ query }: ISearchResultList) => {
   const { data, onLoadMore, isFetching } = useReposQuery(query);
 
   const [lastElementRef, inView] = useInView();
 
   const renderData = () => {
     if (data !== undefined) {
-      return data.pages.map((page: pageType) => {
-        return page.data.items.map((repo: RepoType, index: number) => {
+      return data.pages.map((page: IPage) => {
+        return page.data.items.map((repo: IRawRepo, index: number) => {
           const isLast = index === page.data.items.length - 1;
           return (
             <Repo

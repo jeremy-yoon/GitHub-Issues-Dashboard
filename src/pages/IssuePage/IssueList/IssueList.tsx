@@ -5,26 +5,13 @@ import { useIssuesQuery } from "~/hooks";
 import { useInView } from "react-intersection-observer";
 import { savedReposAtom } from "~/store/atoms";
 import { useRecoilState } from "recoil";
+import { IRawIssue } from "~/interfaces";
 
-type pageType = {
+interface IPage {
   data: {
-    items: IssueType[];
+    items: IRawIssue[];
   };
-};
-
-type IssueType = {
-  id: string;
-  title: string;
-  number: number;
-  created_at: string;
-  closed_at?: string;
-  user: {
-    login: string;
-  };
-  state: string;
-  html_url: string;
-  issueRef?: React.RefObject<HTMLElement> | undefined | (() => void);
-};
+}
 
 const IssueList = () => {
   const [savedRepos] = useRecoilState(savedReposAtom);
@@ -50,8 +37,8 @@ const IssueList = () => {
 
   const renderData = () => {
     if (data !== undefined) {
-      return data.pages.map((page: pageType) => {
-        return page.data.items.map((issue: IssueType, index: number) => {
+      return data.pages.map((page: IPage) => {
+        return page.data.items.map((issue: IRawIssue, index: number) => {
           const isLast = index === page.data.items.length - 1;
           return (
             <Issue
