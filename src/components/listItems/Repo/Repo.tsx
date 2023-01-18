@@ -1,6 +1,6 @@
 import React, { forwardRef } from "react";
 import * as S from "./Repo.style";
-import { BookmarkButton } from "~/components";
+import { BookmarkButton } from "./BookmarkButton";
 import moment from "moment";
 import { IRepo } from "~/interfaces";
 

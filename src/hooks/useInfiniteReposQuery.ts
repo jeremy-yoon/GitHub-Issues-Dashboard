@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { useInfiniteQuery } from "react-query";
-import { getIssues } from "~/apis";
+import { getRepos } from "~/apis";
 
-const useIssuesQuery = (query: string) => {
+const useInfiniteReposQuery = (query: string) => {
   const [page, setPage] = useState(1);
 
   const { data, fetchNextPage, hasNextPage, isFetching } = useInfiniteQuery(
     ["repos", query],
-    () => getIssues(query, page.toString()),
+    () => getRepos(query, page.toString()),
     {
       getNextPageParam: (lastPage: any) => {
         if (lastPage.length < 20) return undefined;
@@ -19,11 +19,13 @@ const useIssuesQuery = (query: string) => {
   const onLoadMore = () => {
     if (hasNextPage && !isFetching && data && query) {
       setPage(page + 1);
-      fetchNextPage();
+      setTimeout(() => {
+        fetchNextPage();
+      }, 0);
     }
   };
 
   return { data, onLoadMore, isFetching };
 };
 
-export default useIssuesQuery;
+export default useInfiniteReposQuery;

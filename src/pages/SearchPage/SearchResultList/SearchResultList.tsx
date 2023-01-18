@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import * as S from "./SearchResultList.style";
 import { Repo, RepoSkeleton } from "~/components";
-import { useReposQuery } from "~/hooks";
+import { useInfiniteReposQuery } from "~/hooks";
 import { useInView } from "react-intersection-observer";
 import { IRawRepo } from "~/interfaces";
 
@@ -16,7 +16,7 @@ interface IPage {
 }
 
 const SearchResultList = ({ query }: ISearchResultList) => {
-  const { data, onLoadMore, isFetching } = useReposQuery(query);
+  const { data, onLoadMore, isFetching } = useInfiniteReposQuery(query);
 
   const [lastElementRef, inView] = useInView();
 
@@ -44,6 +44,14 @@ const SearchResultList = ({ query }: ISearchResultList) => {
     }
   };
 
+  const renderEmptyMessage = () => {
+    if (data !== undefined) {
+      if (data.pages[0].data.items.length === 0) {
+        return <S.EmptyMessage>검색 결과가 없어요.</S.EmptyMessage>;
+      }
+    }
+  };
+
   useEffect(() => {
     if (inView) {
       onLoadMore();
@@ -53,6 +61,7 @@ const SearchResultList = ({ query }: ISearchResultList) => {
   return (
     <S.Container>
       {renderData()}
+      {renderEmptyMessage()}
       {isFetching && <RepoSkeleton repeat={10} />}
     </S.Container>
   );

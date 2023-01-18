@@ -6,7 +6,6 @@ import { IIssue } from "~/interfaces";
 export const Issue: React.FC<IIssue> = React.memo(
   forwardRef(
     ({
-      id,
       title,
       number,
       createdAt,

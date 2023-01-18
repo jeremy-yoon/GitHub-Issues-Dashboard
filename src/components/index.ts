@@ -1,6 +1,3 @@
-//buttons
-export { BookmarkButton } from "./buttons/BookmarkButton";
-
 //inputs
 export { SearchInput } from "./inputs/SearchInput";
 

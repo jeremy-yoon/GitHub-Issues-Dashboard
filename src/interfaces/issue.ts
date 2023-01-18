@@ -1,5 +1,5 @@
 export interface IIssue {
-  id: string;
+  id?: string;
   title: string;
   number: number;
   createdAt: string;

@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import * as S from "./IssueList.style";
 import { Issue, RepoSkeleton } from "~/components";
-import { useIssuesQuery } from "~/hooks";
+import { useInfiniteIssuesQuery } from "~/hooks";
 import { useInView } from "react-intersection-observer";
 import { savedReposAtom } from "~/store/atoms";
 import { useRecoilState } from "recoil";
@@ -23,7 +23,7 @@ const IssueList = () => {
     return issuesParams.join("+");
   };
 
-  const { data, onLoadMore, isFetching } = useIssuesQuery(
+  const { data, onLoadMore, isFetching } = useInfiniteIssuesQuery(
     getIssuesParams(savedRepos)
   );
 
@@ -58,9 +58,20 @@ const IssueList = () => {
     }
   };
 
+  const renderEmptyMessage = () => {
+    if (data !== undefined) {
+      if (data.pages[0].data.items.length === 0) {
+        return (
+          <S.EmptyMessage>저장한 레포지토리의 이슈가 없어요.</S.EmptyMessage>
+        );
+      }
+    }
+  };
+
   return (
     <S.Container>
       {renderData()}
+      {renderEmptyMessage()}
       {isFetching && <RepoSkeleton repeat={10} />}
     </S.Container>
   );

@@ -20,9 +20,21 @@ const BookmarkButton: React.FC<IBookmarkButton> = ({
 
   const [api, contextHolder] = notification.useNotification();
 
-  const openNotification = () => {
-    api.info({
-      message: `레포지토리는 최대 4개까지 저장할 수 있어요.`,
+  const openSaveSuccessNotification = () => {
+    api.success({
+      message: `성공적으로 저장되었어요.`,
+    });
+  };
+
+  const openLimitWarningNotification = () => {
+    api.warning({
+      message: `최대 4개까지만 저장할 수 있어요.`,
+    });
+  };
+
+  const openDeleteSuccessNotification = () => {
+    api.success({
+      message: `성공적으로 삭제되었어요.`,
     });
   };
 
@@ -46,14 +58,16 @@ const BookmarkButton: React.FC<IBookmarkButton> = ({
 
   const handleSave = () => {
     if (savedRepos.length >= 4) {
-      openNotification();
+      openLimitWarningNotification();
     } else {
+      openSaveSuccessNotification();
       saveRepo();
     }
   };
 
   const handleDelete = (fullName: string) => {
     if (window.confirm(`${fullName}을(를) 저장 목록에서 삭제하시겠어요?`)) {
+      openDeleteSuccessNotification();
       deleteRepo();
     }
   };

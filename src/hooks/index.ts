@@ -1,4 +1,4 @@
-import useReposQuery from "./useReposQuery";
-import useIssuesQuery from "./useIssuesQuery";
+import useInfiniteReposQuery from "./useInfiniteReposQuery";
+import useInfiniteIssuesQuery from "./useInfiniteIssuesQuery";
 
-export { useReposQuery, useIssuesQuery };
+export { useInfiniteReposQuery, useInfiniteIssuesQuery };
