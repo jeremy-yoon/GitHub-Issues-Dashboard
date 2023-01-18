@@ -1,12 +1,6 @@
 import React from "react";
 import * as S from "./SearchHeader.style";
-import {
-  createSearchParams,
-  useNavigate,
-  useSearchParams,
-} from "react-router-dom";
-
-//components
+import { createSearchParams, useNavigate } from "react-router-dom";
 import { SearchInput } from "~/components";
 import { BottomLine } from "./components/BottomLine";
 

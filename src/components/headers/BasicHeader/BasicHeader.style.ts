@@ -21,15 +21,14 @@ export const Container = styled.nav`
 
 export const Wrapper = styled.div`
   width: 100%;
-  max-width: 688px;
-  padding: 0 24px;
+  max-width: 768px;
+  padding: 0 12px;
   display: flex;
   align-items: center;
 `;
 
 export const IcBackButton = styled(IcBack)`
   cursor: pointer;
-  margin-right: 20px;
   padding: 8px;
   width: 40px;
   height: 40px;

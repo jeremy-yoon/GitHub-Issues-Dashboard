@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import * as S from "./IssueList.style";
-import { Issue } from "~/components";
+import { Issue, RepoSkeleton } from "~/components";
 import { useIssuesQuery } from "~/hooks";
 import { useInView } from "react-intersection-observer";
 import { savedReposAtom } from "~/store/atoms";
@@ -26,7 +26,7 @@ type IssueType = {
   issueRef?: React.RefObject<HTMLElement> | undefined | (() => void);
 };
 
-const IssueList = ({}) => {
+const IssueList = () => {
   const [savedRepos] = useRecoilState(savedReposAtom);
 
   const getIssuesParams = (repos: { fullName: string }[]) => {
@@ -36,7 +36,9 @@ const IssueList = ({}) => {
     return issuesParams.join("+");
   };
 
-  const { data, onLoadMore } = useIssuesQuery(getIssuesParams(savedRepos));
+  const { data, onLoadMore, isFetching } = useIssuesQuery(
+    getIssuesParams(savedRepos)
+  );
 
   const [lastElementRef, inView] = useInView();
 
@@ -69,7 +71,12 @@ const IssueList = ({}) => {
     }
   };
 
-  return <S.Container>{renderData()}</S.Container>;
+  return (
+    <S.Container>
+      {renderData()}
+      {isFetching && <RepoSkeleton repeat={10} />}
+    </S.Container>
+  );
 };
 
 export default IssueList;

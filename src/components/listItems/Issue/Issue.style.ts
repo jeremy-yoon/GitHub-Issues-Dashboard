@@ -35,12 +35,14 @@ export const ContentWrapper = styled.div`
   flex-direction: column;
 `;
 
-export const Title = styled.span`
+export const Title = styled.span<{ isClosed?: Boolean }>`
   font-weight: bold;
   font-size: 16px;
   line-height: 20px;
-  color: ${colors.primary};
+  color: ${(props) => (props.isClosed ? colors.green : colors.primary)};
   ${textDefaultStyle}
+
+  margin-top: 4px;
 `;
 
 export const Description = styled.span`
@@ -48,8 +50,6 @@ export const Description = styled.span`
   line-height: 18px;
   color: ${colors.g1};
   ${textDefaultStyle}
-
-  margin-top: 4px;
 `;
 
 export const Information = styled.span`

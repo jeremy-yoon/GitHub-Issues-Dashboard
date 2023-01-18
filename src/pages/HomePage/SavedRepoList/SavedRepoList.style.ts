@@ -22,11 +22,22 @@ export const Title = styled.h1`
   margin-left: 12px;
 `;
 
-export const Button = styled.button`
+export const Caption = styled.span`
+  font-size: 14px;
+  line-height: 20px;
+  color: ${colors.g3};
+  margin-top: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+`;
+
+export const Button = styled.button<{ disabled?: boolean }>`
   padding: 8px 16px;
   font-size: 16px;
   line-height: 32px;
   font-weight: bold;
-  color: ${colors.primary};
+  color: ${(props) => (props.disabled ? colors.g4 : colors.primary)};
   margin-left: 12px;
 `;

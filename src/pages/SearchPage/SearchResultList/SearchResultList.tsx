@@ -2,8 +2,11 @@ import React, { useEffect } from "react";
 import * as S from "./SearchResultList.style";
 import { Repo, RepoSkeleton } from "~/components";
 import { useReposQuery } from "~/hooks";
-import { useSearchParams } from "react-router-dom";
 import { useInView } from "react-intersection-observer";
+
+type SearchResultListProps = {
+  query: string;
+};
 
 type pageType = {
   data: {
@@ -24,10 +27,7 @@ type RepoType = {
   html_url: string;
 };
 
-const SearchResultList = ({}) => {
-  const [searchParams] = useSearchParams();
-  const query = searchParams.get("query") as string;
-
+const SearchResultList = ({ query }: SearchResultListProps) => {
   const { data, onLoadMore, isFetching } = useReposQuery(query);
 
   const [lastElementRef, inView] = useInView();

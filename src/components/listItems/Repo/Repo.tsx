@@ -18,7 +18,7 @@ interface IRepo {
   RepoRef?: React.RefObject<HTMLElement> | undefined | (() => void);
 }
 
-export const Repo: React.FC<IRepo> = React.memo(
+const Repo: React.FC<IRepo> = React.memo(
   forwardRef(
     ({
       id,

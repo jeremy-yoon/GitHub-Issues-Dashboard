@@ -11,7 +11,7 @@ const SearchPage = () => {
     <>
       <S.Container>
         <SearchHeader query={query} />
-        <SearchResultList />
+        <SearchResultList query={query} />
       </S.Container>
     </>
   );

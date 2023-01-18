@@ -17,7 +17,7 @@ type RepoType = {
   htmlUrl: string;
 };
 
-const SavedRepoList = ({}) => {
+const SavedRepoList = () => {
   const navigate = useNavigate();
 
   const [savedRepos] = useRecoilState(savedReposAtom);
@@ -28,6 +28,14 @@ const SavedRepoList = ({}) => {
 
   const renderData = () => {
     if (savedRepos !== undefined) {
+      if (savedRepos.length === 0) {
+        return (
+          <S.Caption>
+            <span>저장한 레포지토리가 없어요.</span>
+            <span>검색창을 이용해 탐색해보세요.</span>
+          </S.Caption>
+        );
+      }
       return savedRepos.map((repo: RepoType) => (
         <Repo
           key={repo.id}
@@ -48,7 +56,9 @@ const SavedRepoList = ({}) => {
     <S.Container>
       <S.Header>
         <S.Title>저장한 레포지토리</S.Title>
-        <S.Button onClick={goToIssuePage}>이슈 모아보기</S.Button>
+        <S.Button onClick={goToIssuePage} disabled={savedRepos.length === 0}>
+          이슈 모아보기
+        </S.Button>
       </S.Header>
       {renderData()}
     </S.Container>
