@@ -4,6 +4,7 @@ import { Repo, RepoSkeleton } from "~/components";
 import { useInfiniteReposQuery } from "~/hooks";
 import { useInView } from "react-intersection-observer";
 import { IRawRepo } from "~/interfaces";
+import { notification } from "antd";
 
 interface ISearchResultList {
   query: string;
@@ -16,7 +17,18 @@ interface IPage {
 }
 
 const SearchResultList = ({ query }: ISearchResultList) => {
-  const { data, onLoadMore, isFetching } = useInfiniteReposQuery(query);
+  const [api, contextHolder] = notification.useNotification();
+
+  const openErrorNotification = (error: string) => {
+    api.warning({
+      message: error,
+    });
+  };
+
+  const { data, onLoadMore, isFetching } = useInfiniteReposQuery(
+    query,
+    openErrorNotification
+  );
 
   const [lastElementRef, inView] = useInView();
 
@@ -60,6 +72,7 @@ const SearchResultList = ({ query }: ISearchResultList) => {
 
   return (
     <S.Container>
+      {contextHolder}
       {renderData()}
       {renderEmptyMessage()}
       {isFetching && <RepoSkeleton repeat={10} />}
