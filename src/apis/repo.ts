@@ -5,7 +5,7 @@ export const getRepos = (query: string, page: string) => {
     params: {
       q: query,
       per_page: 20,
-      page,
+      page: page,
     },
   });
 };

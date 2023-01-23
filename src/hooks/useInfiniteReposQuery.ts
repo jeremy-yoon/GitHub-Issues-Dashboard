@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef } from "react";
 import { useInfiniteQuery } from "react-query";
 import { getRepos } from "~/apis";
 
@@ -6,15 +6,15 @@ const useInfiniteReposQuery = (
   query: string,
   handleError: (error: string) => void
 ) => {
-  const [page, setPage] = useState(1);
+  const page = useRef(1);
 
   const { data, fetchNextPage, hasNextPage, isFetching } = useInfiniteQuery(
     ["repos", query],
-    () => getRepos(query, page.toString()),
+    ({ pageParam = 1 }) => getRepos(query, pageParam.toString()),
     {
       getNextPageParam: (lastPage: any) => {
         if (lastPage.length < 20) return undefined;
-        return page + 1;
+        return page.current;
       },
       onError: (error: { message: string }) => {
         handleError(error.message);
@@ -22,10 +22,10 @@ const useInfiniteReposQuery = (
     }
   );
 
-  const onLoadMore = async () => {
+  const onLoadMore = () => {
     if (hasNextPage && !isFetching && data && query) {
-      setPage(page + 1);
-      await fetchNextPage();
+      page.current += 1;
+      fetchNextPage();
     }
   };
 

@@ -6,6 +6,7 @@ import { useInView } from "react-intersection-observer";
 import { savedReposAtom } from "~/store/atoms";
 import { useRecoilState } from "recoil";
 import { IRawIssue } from "~/interfaces";
+import { notification } from "antd";
 
 interface IPage {
   data: {
@@ -16,6 +17,14 @@ interface IPage {
 const IssueList = () => {
   const [savedRepos] = useRecoilState(savedReposAtom);
 
+  const [api, contextHolder] = notification.useNotification();
+
+  const openErrorNotification = (error: string) => {
+    api.warning({
+      message: error,
+    });
+  };
+
   const getIssuesParams = (repos: { fullName: string }[]) => {
     const issuesParams = repos.map((repo: { fullName: string }) => {
       return `repo:${repo.fullName}`;
@@ -24,7 +33,8 @@ const IssueList = () => {
   };
 
   const { data, onLoadMore, isFetching } = useInfiniteIssuesQuery(
-    getIssuesParams(savedRepos)
+    getIssuesParams(savedRepos),
+    openErrorNotification
   );
 
   const [lastElementRef, inView] = useInView();
@@ -70,6 +80,7 @@ const IssueList = () => {
 
   return (
     <S.Container>
+      {contextHolder}
       {renderData()}
       {renderEmptyMessage()}
       {isFetching && <RepoSkeleton repeat={10} />}
