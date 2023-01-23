@@ -54,8 +54,6 @@ const SearchInput: React.FC<ISearchInput> = ({
         onKeyPress={onKeyPress}
         onFocus={() => setIsHighlight(true)}
         onBlur={() => setIsHighlight(false)}
-        onMouseOver={() => setIsHighlight(true)}
-        onMouseOut={() => setIsHighlight(false)}
         hasLeftPadding={hasSearchButton}
         isHighlight={isHighlight}
       />
