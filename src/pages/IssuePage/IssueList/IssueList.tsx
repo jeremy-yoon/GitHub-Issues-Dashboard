@@ -43,7 +43,7 @@ const IssueList = () => {
     if (inView) {
       onLoadMore();
     }
-  }, [inView]);
+  }, [inView, onLoadMore]);
 
   const renderData = () => {
     if (data !== undefined) {

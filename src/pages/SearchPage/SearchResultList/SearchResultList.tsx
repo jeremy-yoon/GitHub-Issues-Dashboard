@@ -68,7 +68,7 @@ const SearchResultList = ({ query }: ISearchResultList) => {
     if (inView) {
       onLoadMore();
     }
-  }, [inView]);
+  }, [inView, onLoadMore]);
 
   return (
     <S.Container>
